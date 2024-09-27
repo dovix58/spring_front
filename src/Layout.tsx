@@ -6,18 +6,19 @@ import PostTable from './postTable';
 
 
 function Layout() {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState([]); // Assuming posts are of type 'any[]', you can change this type if necessary
+    const [currentPost, setCurrentPost] = useState<any | null>(null);
 
 
     useEffect(() =>{
         getPosts(setPosts);
-    })
+    },[])
     return (
         <Grid container spacing={2}>
             <Grid item xs={4}>
                 <Paper>
                     <Box display="flex" justifyContent="center">
-                        <PostTable posts={posts} />
+                        <PostTable posts={posts} setCurrentPost={setCurrentPost}  />
                     </Box>
                 </Paper>
             </Grid>

@@ -1,19 +1,24 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import {useState} from "react";
 
-function postTable(props: { posts: any[]; }){
+function PostTable(props: { posts: any[], setCurrentPost?: (value: (((prevState: any[]) => any[]) | any[])) => void }){
+
+    const[chosenPost, setPost] = useState([]);
+    console.log(chosenPost);
     return (
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{
+                "& .MuiTableRow-root:hover": {
+                backgroundColor: "primary.light"
+            }
+            }}>
                 <TableBody>
                     {props.posts.map((row) => (
                         <TableRow
-                            key={row.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            onClick={() => setPost(row.id)}
+                            key={row.id}
                         >
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.author}</TableCell>
+                            <TableCell align="justify">{row.title}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -21,4 +26,4 @@ function postTable(props: { posts: any[]; }){
         </TableContainer>
     );
 }
-export default postTable;
+export default PostTable;
