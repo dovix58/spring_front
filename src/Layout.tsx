@@ -3,10 +3,14 @@ import Grid from '@mui/material/Grid';
 import {Box, Paper, Typography} from "@mui/material";
 import { getPosts } from './api/postApi';
 import PostTable from './postTable';
+import {Post} from "./Types/Post";
+
+
+
 
 
 function Layout() {
-    const [posts, setPosts] = useState([]); // Assuming posts are of type 'any[]', you can change this type if necessary
+    const [posts, setPosts] = useState<Post[]>([]); // Assuming posts are of type 'any[]', you can change this type if necessary
     const [currentPost, setCurrentPost] = useState<any | null>(null);
 
 

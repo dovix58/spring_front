@@ -1,12 +1,15 @@
 import axios from "axios"
-import { SetStateAction } from "react";
+
+import {Post} from "../Types/Post";
 
 
-export const getPosts = (setPosts: { (value: SetStateAction<never[]>): void; (arg0: any): any; }) =>{
-
+export const getPosts = (setPosts: (posts: Post[]) => void): Promise<void> => {
     return axios.get(`/users/1/posts`)
-        .then(response => setPosts(response.data))
-        .catch(error => {
-            console.log(error.message);
+        .then(response => {
+            console.log(response.data);  // Log the data
+            setPosts(response.data);     // Set the posts
         })
-}
+        .catch(error => {
+            console.log(error.message);   // Log the error message if there is one
+        });
+};

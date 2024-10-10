@@ -19,6 +19,8 @@ function PostTable(props: { posts: any[], setCurrentPost?: (value: (((prevState:
                             key={row.id}
                         >
                             <TableCell align="justify">{row.title}</TableCell>
+                            <TableCell align="justify">{row.author}</TableCell>
+
                         </TableRow>
                     ))}
                 </TableBody>
