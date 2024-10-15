@@ -11,12 +11,13 @@ import {Post} from "./Types/Post";
 
 function Layout() {
     const [posts, setPosts] = useState<Post[]>([]); // Assuming posts are of type 'any[]', you can change this type if necessary
-    const [currentPost, setCurrentPost] = useState<any | null>(null);
+    const [currentPost, setCurrentPost] = useState<Post>();
 
 
     useEffect(() =>{
         getPosts(setPosts);
     },[])
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={4}>
@@ -28,8 +29,16 @@ function Layout() {
             </Grid>
             <Grid item xs={8}>
                 <Paper>
-                    <Box display="flex" justifyContent="center">
-                        Full posts with author comments and photos :D
+                    <Box display="flex" justifyContent="center"
+                         sx={{
+                             width: 100,
+                             height: '50vh',
+                             borderRadius: 1,
+
+                         }}>
+                        {currentPost?.id}
+                        {currentPost?.author}
+                        {currentPost?.title}
                     </Box>
                     </Paper>
             </Grid>
