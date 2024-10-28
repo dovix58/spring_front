@@ -40,6 +40,10 @@ function Layout() {
                         {currentPost?.author}
                         {currentPost?.title}
                     </Box>
+                    <Box>
+
+                        duxas
+                    </Box>
                     </Paper>
             </Grid>
         </Grid>
