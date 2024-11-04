@@ -4,8 +4,9 @@ import {Box, Paper, Typography} from "@mui/material";
 import { getPosts } from './api/postApi';
 import PostTable from './postTable';
 import {Post} from "./Types/Post";
-import {getAllPhotoIds} from "./api/photosApi";
+import {getAllPhotoIds, getThumbnail} from "./api/photosApi";
 import {Thumbnail} from "./Types/Thumbnail";
+import MUIImageList from "./MUIImageList";
 
 
 
@@ -13,9 +14,10 @@ import {Thumbnail} from "./Types/Thumbnail";
 
 function Layout() {
     const [posts, setPosts] = useState<Post[]>([]); // Assuming posts are of type 'any[]', you can change this type if necessary
-    const [currentPost, setCurrentPost] = useState<Post>();
-    const [photoIds, setPhotoIds] = useState<number[]>();
-    const [thumbnail, setThumbnail] = useState<Thumbnail>();
+    const [currentPost, setCurrentPost] = useState<Post | null>(null);
+    const [photoIds, setPhotoIds] = useState<number[]>([]);
+    const [thumbnails, setThumbnails] = useState<Thumbnail[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
 
 
@@ -26,8 +28,8 @@ function Layout() {
     const fetchPhotoIds = async () => {
         if (currentPost?.id) { // Check if currentPost is defined
             try {
-                const photoIds = await getAllPhotoIds(currentPost.id);
-                setPhotoIds(photoIds); // Set the resolved photo IDs
+                const gotIds = await getAllPhotoIds(currentPost.id);
+                setPhotoIds(gotIds); // Set the resolved photo IDs
                 console.log(photoIds);
             } catch (error) {
                 console.error("Error fetching photo IDs:", error);
@@ -35,18 +37,19 @@ function Layout() {
         }
     };
     const fetchThumbnails = async (ids: number[]) => {
-        const requests = ids.map(async (id) => {
-            try {
-                const response = await
-            }
-            catch (error){
-                console.error("Error fetching photo detail:" ,error)
-                return null;
-            }
-        })
+        if (!currentPost || ids.length === 0) return ;
+        try {
+            const thumbnailPromises = ids.map((photoId) => getThumbnail(photoId, currentPost.id));
+            const fetchedThumbnails = await Promise.all(thumbnailPromises);
+            setThumbnails(fetchedThumbnails);
+        } catch (err) {
+            console.error('Error fetching thumbnails:', err);
+            setError('Failed to load thumbnails');
+        }
     }
     useEffect(() => {
         fetchPhotoIds();
+        fetchThumbnails(photoIds);
 
     }, [currentPost]);
 
@@ -74,8 +77,7 @@ function Layout() {
 
                     </Box>
                     <Box>
-
-                        duxas
+                            <MUIImageList images={thumbnails}/>
                     </Box>
                     </Paper>
             </Grid>

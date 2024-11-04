@@ -1,7 +1,8 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import {useState} from "react";
+import {Post} from "./Types/Post";
 
-function PostTable(props: { posts: any[], setCurrentPost: any }){
+function PostTable(props: { posts: Post[], setCurrentPost: any }){
 
     return (
         <TableContainer component={Paper}>

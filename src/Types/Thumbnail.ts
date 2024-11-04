@@ -1,4 +1,5 @@
 export interface Thumbnail{
+    id: number,
     name: string,
-    imageUrl: string
+    bytes: string
 }
